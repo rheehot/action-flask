@@ -18,11 +18,11 @@ jobs:
 
     - uses: actions/docker/cli@master
       with:
-        args: build -t docker.pkg.github.com/hongkunyoo/action-flask:${{ github.sha }} .
+        args: build -t docker.pkg.github.com/hongkunyoo/action-flask/app:${{ github.sha }} .
 
     - uses: actions/docker/cli@master
       with:
-        args: push docker.pkg.github.com/hongkunyoo/action-flask:${{ github.sha }}
+        args: push docker.pkg.github.com/hongkunyoo/action-flask/app:${{ github.sha }}
 
 #    - uses: azure/container-actions/docker-login@master
 #      with:
