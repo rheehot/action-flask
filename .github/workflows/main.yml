@@ -18,7 +18,7 @@ jobs:
 
     - uses: actions/docker/cli@master
       with:
-        args: build -t docker.pkg.github.com/hongkunyoo/action-flask/app:${{ github.sha }} .
+        args: build -t docker.pkg.github.com/hongkunyoo/action-flask/flask:${{ github.sha }} .
 
     - uses: actions/docker/cli@master
       with:
