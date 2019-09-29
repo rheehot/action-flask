@@ -22,7 +22,7 @@ jobs:
 
     - uses: actions/docker/cli@master
       with:
-        args: push docker.pkg.github.com/hongkunyoo/action-flask/app:${{ github.sha }}
+        args: push docker.pkg.github.com/hongkunyoo/action-flask/flask:${{ github.sha }}
 
 #    - uses: azure/container-actions/docker-login@master
 #      with:
