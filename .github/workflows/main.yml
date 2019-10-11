@@ -17,8 +17,8 @@ jobs:
 #        token: ${{ secrets.DOCKER_PASSWORD }}
     - name: checkout action
       run: |
-          remote_repo="https://${GITHUB_ACTOR}:${{ secrets.DOCKER_PASSWORD }}@github.com/hongkunyoo/action-chart.git
-          git clone ${remote_repo}
+          remote_repo="https://${GITHUB_ACTOR}:${{ secrets.DOCKER_PASSWORD }}@github.com/hongkunyoo/action-chart.git"
+          git clone "${remote_repo}"
 
 #    - name: Publish to Registry
 #      uses: elgohr/Publish-Docker-Github-Action@master
