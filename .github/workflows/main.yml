@@ -35,11 +35,12 @@ jobs:
           remote_repo="https://${GITHUB_ACTOR}:${{ secrets.DOCKER_PASSWORD }}@github.com/hongkunyoo/action-chart.git"
           git clone "${remote_repo}"
           cd action-chart
+          git checkout stage
           echo ${{ github.sha }} >> README.md
           git config --local user.email "hongkunyoo@gmail.com"
           git config --local user.name "hongkunyoo"
           git commit -m "${{ github.sha }} plz $date" -a
-          git push "${remote_repo}" HEAD:master
+          git push "${remote_repo}" HEAD:stage
 
     - uses: Ilshidur/action-slack@master
       name: Slack notification-failure
