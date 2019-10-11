@@ -20,21 +20,24 @@ jobs:
 #    - uses: actions/docker/cli@master
 #      with:
 #        args: push docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:${{ github.sha }}
-    - name: Publish to Registry
-      uses: elgohr/Publish-Docker-Github-Action@master
-      with:
-        name: hongkunyoo/action-flask/myflaskplz:${{ github.sha }}
-        username: ${{ secrets.DOCKER_USER }}
-        password: ${{ secrets.DOCKER_PASSWORD }} 
-        registry: docker.pkg.github.com
-        dockerfile: Dockerfile
+    - name: Build the Docker image
+      run: docker build . -t docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:${{ github.sha }}
+
+    - name: pylint
+      run: docker run --entrypoint pylint docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:${{ github.sha }} app.py
+#    - name: Publish to Registry
+#      uses: elgohr/Publish-Docker-Github-Action@master
+#      with:
+#        name: hongkunyoo/action-flask/myflaskplz:${{ github.sha }}
+#        username: ${{ secrets.DOCKER_USER }}
+#        password: ${{ secrets.DOCKER_PASSWORD }} 
+#        registry: docker.pkg.github.com
+#        dockerfile: Dockerfile
 
     - uses: Ilshidur/action-slack@master
       name: Slack notification
       env:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-        SLACK_USERNAME: ThisIsMyUsername # Optional.
-        SLACK_CHANNEL: general # Optional.
-        SLACK_OVERRIDE_MESSAGE: 'Custom message' # Optional.
+        #SLACK_OVERRIDE_MESSAGE: 'Custom message' # Optional.
       with:
         args: 'A new commit has been pushed.'
