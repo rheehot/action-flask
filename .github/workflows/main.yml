@@ -7,9 +7,6 @@ jobs:
     runs-on: ubuntu-latest    
     steps:
     - uses: actions/checkout@master
-#    - uses: ./action-a
-#      env:
-#        MY_NAME: "Mona"
     - uses: actions/docker/login@master
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USER }}
@@ -18,12 +15,22 @@ jobs:
 
     - uses: actions/docker/cli@master
       with:
-        args: build -t docker.pkg.github.com/hongkunyoo/action-flask/flask:${{ github.sha }} .
+        args: build -t docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:${{ github.sha }} .
 
     - uses: actions/docker/cli@master
       with:
-        args: push docker.pkg.github.com/hongkunyoo/action-flask/flask:${{ github.sha }}
+        args: push docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:${{ github.sha }}
 
     - uses: apex/actions/slack@master
       env:
         SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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
+
+    - uses: Ilshidur/action-slack@master
+      name: Slack notification
+      env:
+        SLACK_WEBHOOK: https://hooks.slack.com/services/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
+        SLACK_USERNAME: ThisIsMyUsername # Optional.
+        SLACK_CHANNEL: general # Optional.
+        SLACK_OVERRIDE_MESSAGE: 'Custom message' # Optional.
+      with:
+        args: 'A new commit has been pushed.'
