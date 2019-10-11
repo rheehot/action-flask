@@ -35,14 +35,16 @@ jobs:
         repository: https://github.com/hongkunyoo/action-chart.git
         token: ${{ secrets.DOCKER_PASSWORD }}
 
-#    - name: Publish to Registry
-#      uses: elgohr/Publish-Docker-Github-Action@master
-#      with:
-#        name: hongkunyoo/action-flask/myflaskplz:${{ github.sha }}
-#        username: ${{ secrets.DOCKER_USER }}
-#        password: ${{ secrets.DOCKER_PASSWORD }} 
-#        registry: docker.pkg.github.com
-#        dockerfile: Dockerfile
+    - name: checkout chart
+      run: |
+          remote_repo="https://${GITHUB_ACTOR}:${{ secrets.DOCKER_PASSWORD }}@github.com/hongkunyoo/action-chart.git"
+          git clone "${remote_repo}"
+          cd action-chart
+          echo ${{ github.sha }} >> README.md
+          git config --local user.email "hongkunyoo@gmail.com"
+          git config --local user.name "hongkunyoo"
+          git commit -m "${{ github.sha }} plz" -a
+          git push "${remote_repo}" HEAD:master
 
     - uses: Ilshidur/action-slack@master
       name: Slack notification-failure
