@@ -24,7 +24,7 @@ jobs:
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
         name: hongkunyoo/action-flask/myflaskplz:${{ github.sha }}
-        username: ${{ secrets.DOCKER_USERNAME }}
+        username: ${{ secrets.DOCKER_USER }}
         password: ${{ secrets.DOCKER_PASSWORD }} 
         registry: docker.pkg.github.com
         dockerfile: Dockerfile
