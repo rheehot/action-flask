@@ -38,7 +38,7 @@ jobs:
     - name: push
       run: |
           docker push docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:${{ github.sha }}
-          docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:latest
+          docker push docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:latest
 #    - name: Publish to Registry
 #      uses: elgohr/Publish-Docker-Github-Action@master
 #      with:
@@ -48,6 +48,10 @@ jobs:
 #        registry: docker.pkg.github.com
 #        dockerfile: Dockerfile
 
+  notify:
+    name: notify to slack
+    runs-on: ubuntu-latest
+    steps:
     - uses: Ilshidur/action-slack@master
       name: Slack notification
       env:
