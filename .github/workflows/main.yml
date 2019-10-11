@@ -24,10 +24,10 @@ jobs:
     - name: login
       run: docker login docker.pkg.github.com -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
 
-#    - name: push
-#      run: |
-#          docker push docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:${{ github.sha }}
-#          docker push docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:latest
+    - name: push
+      run: |
+          docker push docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:${{ github.sha }}
+          docker push docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:latest
 
 
     - name: checkout chart
@@ -38,7 +38,7 @@ jobs:
           echo ${{ github.sha }} >> README.md
           git config --local user.email "hongkunyoo@gmail.com"
           git config --local user.name "hongkunyoo"
-          git commit -m "${{ github.sha }} plz" -a
+          git commit -m "${{ github.sha }} plz $date" -a
           git push "${remote_repo}" HEAD:master
 
     - uses: Ilshidur/action-slack@master
@@ -48,7 +48,7 @@ jobs:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         #SLACK_OVERRIDE_MESSAGE: 'Custom message' # Optional.
       with:
-        args: 'A new commit has been failed.'
+        args: 'A new commit has been failed. ${{ github.sha }}'
     - uses: Ilshidur/action-slack@master
       name: Slack notification-success
       if: success()
@@ -56,4 +56,4 @@ jobs:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         #SLACK_OVERRIDE_MESSAGE: 'Custom message' # Optional.
       with:
-        args: 'A new commit has been success.'
+        args: 'A new commit has been success. ${{ github.sha }}'
