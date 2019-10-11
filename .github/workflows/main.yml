@@ -15,10 +15,10 @@ jobs:
 #      with:
 #        repository: https://github.com/hongkunyoo/action-chart.git
 #        token: ${{ secrets.DOCKER_PASSWORD }}
-     - name: checkout action
-       run: |
-           remote_repo="https://${GITHUB_ACTOR}:${{ secrets.DOCKER_PASSWORD }}@github.com/hongkunyoo/action-chart.git
-           git clone ${remote_repo}
+    - name: checkout action
+      run: |
+          remote_repo="https://${GITHUB_ACTOR}:${{ secrets.DOCKER_PASSWORD }}@github.com/hongkunyoo/action-chart.git
+          git clone ${remote_repo}
 
 #    - name: Publish to Registry
 #      uses: elgohr/Publish-Docker-Github-Action@master
