@@ -38,6 +38,7 @@ jobs:
           cd action-chart
           git checkout stage
           echo ${{ github.sha }} >> README.md
+          echo "" >> README.md
           git config --local user.email "hongkunyoo@gmail.com"
           git config --local user.name "hongkunyoo"
           git commit -m "${{ github.sha }} plz $date" -a
