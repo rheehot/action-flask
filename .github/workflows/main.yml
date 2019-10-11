@@ -48,14 +48,19 @@ jobs:
 #        registry: docker.pkg.github.com
 #        dockerfile: Dockerfile
 
-  notify:
-    name: notify to slack
-    runs-on: ubuntu-latest
-    steps:
     - uses: Ilshidur/action-slack@master
-      name: Slack notification
+      name: Slack notification-failure
+      if: failure()
       env:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         #SLACK_OVERRIDE_MESSAGE: 'Custom message' # Optional.
       with:
-        args: 'A new commit has been pushed.'
+        args: 'A new commit has been failed.'
+    - uses: Ilshidur/action-slack@master
+      name: Slack notification-success
+      if: success()
+      env:
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        #SLACK_OVERRIDE_MESSAGE: 'Custom message' # Optional.
+      with:
+        args: 'A new commit has been success.'
