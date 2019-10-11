@@ -27,7 +27,18 @@ jobs:
       run: docker run --entrypoint pylint docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:${{ github.sha }} --errors-only app.py
 
     - name: pytest
-      run: docker run --entrypoint pytest docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:${{ github.sha }}
+      run: docker run --entrypoint pytest docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:${{ github.sha }} test_case.py
+
+    - name: tag latest
+      run: docker tag docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:${{ github.sha }} docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:latest
+
+    - name: login
+      run: docker login docker.pkg.github.com -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: push
+      run: |
+          docker push docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:${{ github.sha }}
+          docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:latest
 #    - name: Publish to Registry
 #      uses: elgohr/Publish-Docker-Github-Action@master
 #      with:

@@ -5,4 +5,4 @@ def test_this():
     assert 1 == 1
 
 def test_that():
-    assert True == 2
+    assert True == 1
