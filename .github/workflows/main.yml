@@ -23,7 +23,7 @@ jobs:
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
-          name: hongkunyoo/action-flask/myflaskplz:${{ github.sha }}
+        name: hongkunyoo/action-flask/myflaskplz:${{ github.sha }}
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }} 
         registry: docker.pkg.github.com
