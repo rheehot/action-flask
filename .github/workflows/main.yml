@@ -24,16 +24,11 @@ jobs:
     - name: login
       run: docker login docker.pkg.github.com -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: push
-      run: |
-          docker push docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:${{ github.sha }}
-          docker push docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:latest
+#    - name: push
+#      run: |
+#          docker push docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:${{ github.sha }}
+#          docker push docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:latest
 
-    - name: checkout action chart
-      uses: actions/checkout@master
-      with:
-        repository: https://github.com/hongkunyoo/action-chart.git
-        token: ${{ secrets.DOCKER_PASSWORD }}
 
     - name: checkout chart
       run: |
