@@ -26,8 +26,9 @@ jobs:
 
     - name: push
       run: |
-          docker push docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:${{ github.sha }}
-          docker push docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:latest
+          echo "push success"
+          #docker push docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:${{ github.sha }}
+          #docker push docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:latest
 
 
     - name: checkout chart
