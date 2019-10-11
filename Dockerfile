@@ -5,6 +5,7 @@ RUN pip install pylint
 RUN pip install pytest
 
 ADD app.py .
+ADD test_case.py .
 
 EXPOSE 5000
 
