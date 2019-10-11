@@ -24,7 +24,7 @@ jobs:
       run: docker build . -t docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:${{ github.sha }}
 
     - name: pylint
-      run: docker run --entrypoint pylint docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:${{ github.sha }} app.py
+      run: docker run --entrypoint pylint docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:${{ github.sha }} --errors-only app.py
 #    - name: Publish to Registry
 #      uses: elgohr/Publish-Docker-Github-Action@master
 #      with:
