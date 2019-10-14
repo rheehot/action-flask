@@ -1,7 +1,7 @@
 name: event test
-on: 
-  check_suite:
-    types: [requested, rerequested, completed]
+#on: 
+#  check_suite:
+#    types: [requested, rerequested, completed]
 
 
 jobs:
