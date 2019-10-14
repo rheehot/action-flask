@@ -6,38 +6,57 @@ jobs:
     name: Hello world action
     runs-on: ubuntu-latest    
     steps:
-    - uses: actions/checkout@master
-#    - uses: ./action-a
-#      env:
-#        MY_NAME: "Mona"
-    - uses: actions/docker/login@master
+    - name: checkout source code
+      uses: actions/checkout@master
+
+    - name: Build the Docker image
+      run: docker build . -t docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:${{ github.sha }}
+
+    - name: pylint
+      run: docker run --entrypoint pylint docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:${{ github.sha }} --errors-only app.py
+
+    - name: pytest
+      run: docker run --entrypoint pytest docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:${{ github.sha }} test_case.py
+
+    - name: tag latest
+      run: docker tag docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:${{ github.sha }} docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:latest
+
+    - name: login
+      run: docker login docker.pkg.github.com -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: push
+      run: |
+          echo "push success"
+          #docker push docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:${{ github.sha }}
+          #docker push docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:latest
+
+
+    - name: checkout chart
+      run: |
+          remote_repo="https://${GITHUB_ACTOR}:${{ secrets.DOCKER_PASSWORD }}@github.com/hongkunyoo/action-chart.git"
+          git clone "${remote_repo}"
+          cd action-chart
+          git checkout stage
+          echo ${{ github.sha }} >> README.md
+          echo "" >> README.md
+          git config --local user.email "hongkunyoo@gmail.com"
+          git config --local user.name "hongkunyoo"
+          git commit -m "${{ github.sha }} plz $date" -a
+          git push "${remote_repo}" HEAD:stage
+
+    - uses: Ilshidur/action-slack@master
+      name: Slack notification-failure
+      if: failure()
       env:
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USER }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        DOCKER_REGISTRY_URL: docker.pkg.github.com
-
-    - uses: actions/docker/cli@master
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        #SLACK_OVERRIDE_MESSAGE: 'Custom message' # Optional.
       with:
-        args: build -t docker.pkg.github.com/hongkunyoo/action-flask/app:${{ github.sha }} .
-
-    - uses: actions/docker/cli@master
+        args: 'A new commit has been failed. ${{ github.sha }}'
+    - uses: Ilshidur/action-slack@master
+      name: Slack notification-success
+      if: success()
+      env:
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        #SLACK_OVERRIDE_MESSAGE: 'Custom message' # Optional.
       with:
-        args: push docker.pkg.github.com/hongkunyoo/action-flask/app:${{ github.sha }}
-
-#    - uses: azure/container-actions/docker-login@master
-#      with:
-#        login-server: docker.pkg.github.com
-#        username: ${{ secrets.DOCKER_USER }}
-#        password: ${{ secrets.DOCKER_PASSWORD }}
-    
-#    - run: |
-#        echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-#        docker build . -t hongkunyoo/flask:${{ github.sha }}
-#        docker push hongkunyoo/flask:${{ github.sha }}
-#      env:
-#        DOCKER_REGISTRY_URL: docker.pkg.github.com
-#        DOCKER_USERNAME: ${{ secrets.DOCKER_USER }}
-#        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-#    - uses: apex/actions/slack@master
-#      env:
-#        SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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
+        args: 'A new commit has been success. ${{ github.sha }}'
