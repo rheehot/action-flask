@@ -1,5 +1,9 @@
 name: event test
-on: push
+on: 
+  check_run:
+    types: [created, rerequested, requested_action, completed]
+
+
 
 jobs:
   build:
