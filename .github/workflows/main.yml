@@ -1,28 +1,28 @@
 name: action-flask-ci
-on: push
+#on: push
 
 jobs:
   build:
     name: Hello world action
     runs-on: ubuntu-latest    
     steps:
-    - name: checkout source code
-      uses: actions/checkout@master
-
-    - name: Build the Docker image
-      run: docker build . -t docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:${{ github.sha }}
-
-    - name: pylint
-      run: docker run --entrypoint pylint docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:${{ github.sha }} --errors-only app.py
-
-    - name: pytest
-      run: docker run --entrypoint pytest docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:${{ github.sha }} test_case.py
-
-    - name: tag latest
-      run: docker tag docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:${{ github.sha }} docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:latest
-
-    - name: login
-      run: docker login docker.pkg.github.com -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
+#    - name: checkout source code
+#      uses: actions/checkout@master
+#
+#    - name: Build the Docker image
+#      run: docker build . -t docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:${{ github.sha }}
+#
+#    - name: pylint
+#      run: docker run --entrypoint pylint docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:${{ github.sha }} --errors-only app.py
+#
+#    - name: pytest
+#      run: docker run --entrypoint pytest docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:${{ github.sha }} test_case.py
+#
+#    - name: tag latest
+#      run: docker tag docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:${{ github.sha }} docker.pkg.github.com/hongkunyoo/action-flask/myflaskplz:latest
+#
+#    - name: login
+#      run: docker login docker.pkg.github.com -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
 
     - name: push
       run: |

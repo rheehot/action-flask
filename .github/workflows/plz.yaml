@@ -1,8 +1,31 @@
 name: event test
 on: 
-  check_suite:
-    types: [requested, rerequested, completed]
-
+- check_run
+- check_suite
+#- commit_comment
+- create
+- delete
+- deployment
+- deployment_status
+- fork
+- gollum
+- issue_comment
+- issues
+- label
+- member
+- milestone
+- page_build
+- project
+- project_card
+- project_column
+- public
+- pull_request
+- pull_request_review
+- pull_request_review_comment
+- push
+- release
+- status
+- watch
 
 jobs:
   build:
@@ -13,6 +36,5 @@ jobs:
         echo "$GITHUB_ACTION"
         echo "$GITHUB_EVENT_NAME"
         echo "$GITHUB_EVENT_PATH"
-        cat "$GITHUB_EVENT_PATH"
 
 
