@@ -1,5 +1,5 @@
 name: action-flask-ci
-on: push
+#on: push
 
 jobs:
   build:
