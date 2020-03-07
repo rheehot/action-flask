@@ -37,4 +37,3 @@ jobs:
         echo "$GITHUB_EVENT_NAME"
         echo "$GITHUB_EVENT_PATH"
 
-
